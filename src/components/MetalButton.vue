@@ -27,6 +27,9 @@ const handleClick = (e) => {
     id
   }
   fingerprints.value.push(fingerprint)
+  setTimeout(() => {
+    fingerprints.value = fingerprints.value.filter((fingerprint) => fingerprint.id != id)
+  }, 10000)
 }
 </script>
 
@@ -38,7 +41,7 @@ const handleClick = (e) => {
       @pointerup="isClick = false"
     >
       <div
-        class="fingerprint z-50 absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 w-16 h-16 overflow-hidden rounded-full bg-zinc-300/40 blur-2xl"
+        class="fingerprint overflow-hidden blur-xl"
         v-for="fingerprint in fingerprints"
         :key="fingerprint.id"
         :style="{
@@ -46,8 +49,13 @@ const handleClick = (e) => {
           top: fingerprint.y + 'px'
         }"
       ></div>
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-none text-7xl"
+      >
+        button
+      </div>
       <video
-        class="button-reflection object-cover opacity-70 blur-sm saturate-50 brightness-110"
+        class="button-reflection object-cover opacity-70 blur-md saturate-50 brightness-110"
         ref="container"
       ></video>
     </div>
@@ -60,6 +68,14 @@ const handleClick = (e) => {
   transform: scaleX(-1);
 }
 .fingerprint {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 100%;
   mask-image: radial-gradient(50% 50% at 50% 50%, #000000 0%, rgba(0, 0, 0, 0) 100%);
   -webkit-mask-image: radial-gradient(50% 50% at 50% 50%, #000000 0%, rgba(0, 0, 0, 0) 100%);
 }
